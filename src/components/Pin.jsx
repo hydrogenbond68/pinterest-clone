@@ -27,15 +27,16 @@ const Wrapper = styled.div`
         display: flex;
         align-items: center;
         box-sizing: border-box;
-        cursor: pointer;
+        cursor:zoom-in;
         width: 236px;
 
         img {
         display: flex;
           width: 100%;pinData,sort(function  (a, b) {
           cursor: zoom-in;
-          border-radius: 16px;
+          border-radius: 24px;
           object-fit: cover;
+          
         }
     
   `

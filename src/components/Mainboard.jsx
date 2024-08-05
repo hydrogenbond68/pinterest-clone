@@ -27,10 +27,12 @@ const Wrapper = styled.div`
   height: 100%;
   margin-top: 100px;
   justify-content: center;
+  
 `;
 
 const Container = styled.div`
   margin: 0 auto;
   height: 100%;
   background-color: white;
+  
 `;
