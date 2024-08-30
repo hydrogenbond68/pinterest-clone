@@ -5,10 +5,11 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import Header from "./components/Header";
+import Navbar from "./components/Navbar";
 import Mainboard from "./components/Mainboard";
 import unsplash from "./api/unsplash";
 import Login from "./components/Login";
+import Footer from "./components/Footer";
 import Profile from "./components/Profile";
 
 function App() {
@@ -91,7 +92,7 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <Header onSubmit={onSearchSubmit} />
+        <Navbar onSubmit={onSearchSubmit} />
         <Routes>
           <Route path="/" element={<Mainboard pins={pins} />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
@@ -107,6 +108,7 @@ function App() {
           />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );

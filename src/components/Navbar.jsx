@@ -9,7 +9,7 @@ import FaceIcon from "@mui/icons-material/Face";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Link, useNavigate } from 'react-router-dom';
 
-function Header(props) {
+function Navbar(props) {
   const [input, setInput] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
@@ -93,7 +93,7 @@ function Header(props) {
   );
 }
 
-export default Header;
+export default Navbar;
 
 const Wrapper = styled.div`
   display: flex;
@@ -158,7 +158,7 @@ const SearchBarWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 40px;
-  width: 100px;
+  width: 1200px;
   border-radius: 1000px;
   padding: 0 10px;
 
