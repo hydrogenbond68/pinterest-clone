@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';
+import InsightsIcon from '@mui/icons-material/Insights';
 import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from "@mui/icons-material/Search"; 
 import NotificationIcon from "@mui/icons-material/Notifications";
 import TextsmsIcon from "@mui/icons-material/Textsms";
 import FaceIcon from "@mui/icons-material/Face";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Link, useNavigate } from 'react-router-dom';
+import { InputBase, Paper } from '@mui/material';
 
 function Navbar(props) {
   const [input, setInput] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const navigate = useNavigate();
 
   const onSearchSubmit = (e) => {
@@ -25,23 +26,21 @@ function Navbar(props) {
   };
 
   const handleLogin = () => {
-    // Implement your login logic here
     setIsLoggedIn(true);
     setIsDropdownOpen(false);
-    navigate('/login'); // Navigate to the login page
+    navigate('/login');
   };
 
   const handleLogout = () => {
-    // Implement your logout logic here
     setIsLoggedIn(false);
     setIsDropdownOpen(false);
-    navigate('/logout'); // Navigate to the logout page
+    navigate('/logout');
   };
 
   return (
     <Wrapper>
       <LogoWrapper>
-        <AssuredWorkloadIcon />
+        <InsightsIcon />
       </LogoWrapper>
       <HomePageButton>
         <Link to="/">Home</Link>
@@ -50,14 +49,17 @@ function Navbar(props) {
         <Link to="/following">Following</Link>
       </FollowingButton>
       <SearchWrapper>
-        <SearchBarWrapper>
-          <IconButton>
+        <SearchBarWrapper component="form" onSubmit={onSearchSubmit}>
+          <IconButton type="submit" aria-label="search">
             <SearchIcon />
           </IconButton>
-          <form onSubmit={onSearchSubmit}>
-            <input type="text" onChange={(e) => setInput(e.target.value)} value={input} placeholder="Search..." />
-            <button type="submit"></button>
-          </form>
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Search..."
+            inputProps={{ 'aria-label': 'search' }}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
         </SearchBarWrapper>
       </SearchWrapper>
       <IconsWrapper>
@@ -95,30 +97,31 @@ function Navbar(props) {
 
 export default Navbar;
 
+// Define all your styled components here:
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  height: 56px;
-  padding: 20px 4px 4px 20px;
-  background-color: white;
+  height: 60px;
+  padding: 10px 2px 2px 10px;
+  background-color:white;
   color: black;
 `;
 
 const LogoWrapper = styled.div`
   .MuiSvgIcon-root {
-    color: #e60023;
+    color:black;
     font-size: 50px;
     cursor: pointer;
-    height: 48px;
-    width: 120px;
+    height: 30px;
+    width: 10px;
     min-width: 123px;
   }
 `;
 
 const HomeButtons = styled.div`
   display: flex;
-  height: 30px;
-  min-width: 150px;
+  height: 40px;
+  min-width: 100px;
   align-items: center;
   justify-content: center;
   border-radius: 28px;
@@ -136,6 +139,14 @@ const HomePageButton = styled(HomeButtons)`
 `;
 
 const FollowingButton = styled(HomeButtons)`
+  display: flex;
+  height: 40px;
+  min-width: 100px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28px;
+  cursor: pointer;
+  
   background-color: white;
 
   a {
@@ -153,34 +164,17 @@ const SearchWrapper = styled.div`
   flex: 1;
 `;
 
-const SearchBarWrapper = styled.div`
-  background-color:grey;
+const SearchBarWrapper = styled(Paper)`
   display: flex;
   align-items: center;
   height: 40px;
-  width: 1200px;
+  width: 95%;
   border-radius: 1000px;
   padding: 0 10px;
+  background-color: grey;
 
-  form {
-    display: flex;
-    flex: 1;
-  }
-
-  form > input {
-    background-color: transparent;
-    border: none;
-    width: 100%;
-    margin-right: 5px;
-    font-size: 16px;
-  }
-
-  form > button {
-    display: none;
-  }
-
-  input:focus {
-    outline: none;
+  .MuiInputBase-root {
+    color: inherit;
   }
 `;
 
