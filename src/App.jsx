@@ -46,41 +46,60 @@ function App() {
       let newPins = [...results, ...pins];
       newPins.sort(() => 0.5 - Math.random());
       setNewPins(newPins);
+    }).catch((error) => {
+      console.error('Search error:', error);
     });
   };
 
   const getNewPins = () => {
-    let promises = [];
-    let pinData = [];
-    let pinTerms = ['Spiderman', 'shoes', 'dogs', 'cats', 'city', 'buildings', 'cars', 'Tatoo'];
-
-    pinTerms.forEach((pinTerm) => {
-      promises.push(
-        getImages(pinTerm).then((res) => {
-          let results = res.data.results;
-          pinData = pinData.concat(results);
-          pinData.sort(() => 0.5 - Math.random());
-        })
-      );
-    });
-
-    Promise.all(promises).then(() => {
-      setNewPins(pinData);
-    });
+    const pinTerms = ['Spiderman', 'shoes', 'dogs', 'cats', 'city', 'buildings', 'cars', 'Tatoo'];
+    
+    Promise.all(
+      pinTerms.map(pinTerm => 
+        getImages(pinTerm).then(res => res.data.results)
+      )
+    )
+      .then(results => {
+        const pinData = results.flat().sort(() => 0.5 - Math.random());
+        setNewPins(pinData);
+      })
+      .catch(error => {
+        console.error('Error fetching pins:', error);
+      });
   };
 
   useEffect(() => {
     getNewPins();
   }, []);
 
+  // Protected Route component
+  const ProtectedRoute = ({ children }) => {
+    return user ? children : <Navigate to="/login" />;
+  };
+
   return (
     <Router>
       <div className="app">
-        <Navbar onSubmit={onSearchSubmit} />
+        <Navbar onSubmit={onSearchSubmit} user={user} onLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Mainboard pins={pins} />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/profile" element={<Profile user={user} onUpdateProfile={handleUpdateProfile} onLogout={handleLogout} />} />
+          <Route path="/login" element={
+            user ? <Navigate to="/" /> : <Login onLogin={handleLogin} onRegister={handleRegister} />
+          } />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile 
+                user={user} 
+                onUpdateProfile={handleUpdateProfile} 
+                onLogout={handleLogout} 
+              />
+            </ProtectedRoute>
+          } />
+          <Route path="/following" element={<Mainboard pins={pins} />} />
+          <Route path="/notifications" element={<Mainboard pins={pins} />} />
+          <Route path="/messages" element={<Mainboard pins={pins} />} />
+          <Route path="/search" element={<Mainboard pins={pins} />} />
+          <Route path="/pin/:id" element={<Mainboard pins={pins} />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <Footer />
